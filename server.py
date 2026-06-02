@@ -1982,8 +1982,8 @@ def api_apply_maintenance(req: MaintenanceApplyRequest, user=Depends(get_current
             raise HTTPException(status_code=400, detail=msg)
 
 @app.post("/api/maintenance/update-target")
-def update_maint_target(req: UpdateMaintTargetRequest):
-    maint_path = os.path.join(os.path.dirname(__file__), "maintenance_actions.json")
+def update_maint_target(req: UpdateMaintTargetRequest, user=Depends(get_current_user)):
+    maint_path = get_user_file_path("maintenance_actions.json", user)
     if not os.path.exists(maint_path):
         raise HTTPException(status_code=404, detail="Queue file not found")
     try:
@@ -2005,8 +2005,9 @@ def update_maint_target(req: UpdateMaintTargetRequest):
 
 # Discard a specific maintenance action
 @app.post("/api/maintenance/discard")
-def discard_action(req: SingleActionRequest):
-    maint_path = os.path.join(os.path.dirname(__file__), "maintenance_actions.json")
+def discard_action(req: SingleActionRequest, user=Depends(get_current_user)):
+    user_id = user.get("user_id") if "user_id" in user else user.get("id")
+    maint_path = get_user_file_path("maintenance_actions.json", user)
     if not os.path.exists(maint_path):
         raise HTTPException(status_code=404, detail="Queue file not found")
         
@@ -2020,8 +2021,11 @@ def discard_action(req: SingleActionRequest):
             channel = action.get("channel")
             current_playlist = action.get("from")[0] if action.get("from") else None
             if channel and current_playlist:
-                from apply_maintenance import learn_channel_rule
-                learn_channel_rule(channel, current_playlist)
+                if is_oauth_configured():
+                    db_helper.save_user_rule(user_id, channel, current_playlist)
+                else:
+                    from apply_maintenance import learn_channel_rule
+                    learn_channel_rule(channel, current_playlist)
 
         # Filter out the action with this vid
         updated_actions = [a for a in actions if a.get("vid") != req.vid]
@@ -2084,11 +2088,117 @@ def execute_single_action_background(action):
     except Exception as e:
         log_message(f"Error executing action: {e}")
 
+def execute_batch_maintenance_api_background(user_id, selected_vids):
+    append_agent_log(f"Starting API-based batch maintenance of {len(selected_vids)} videos (user_id={user_id}).")
+    
+    import youtube_api
+    maint_path = os.path.join(os.path.dirname(__file__), f"maintenance_actions_{user_id}.json")
+    if not os.path.exists(maint_path):
+        append_agent_log("No maintenance queue found.")
+        return
+        
+    try:
+        with open(maint_path, "r", encoding="utf-8") as f:
+            actions = json.load(f)
+            
+        total = len(selected_vids)
+        success_count = 0
+        applied_actions = []
+        
+        remaining_actions = []
+        for a in actions:
+            vid = a.get("vid")
+            if vid in selected_vids:
+                url = f"https://www.youtube.com/watch?v={vid}"
+                title = a.get("title", "Unknown")
+                action_type = a.get("type")
+                
+                current_job_name = f"Apply Batch Maint ({success_count+1}/{total})"
+                with task_manager.lock:
+                    scheduler.active_job = current_job_name
+                    task_manager.active_job = current_job_name
+                    
+                success = False
+                try:
+                    if action_type in ["DUPLICATE", "DUPLICATE_NO_TARGET"]:
+                        remove_playlists = a.get("remove", [])
+                        for p in remove_playlists:
+                            playlist_item_id = get_playlist_item_id_from_cache(url, p, user_id)
+                            if playlist_item_id:
+                                youtube_api.remove_video_from_playlist(user_id, playlist_item_id)
+                                update_cache_for_delete(url, p, user_id)
+                                success = True
+                    elif action_type == "MISPLACED":
+                        source_playlist = a.get("from", [None])[0]
+                        target_playlist = a.get("to")
+                        target_playlist_id = get_playlist_id_by_name(target_playlist, user_id)
+                        source_playlist_item_id = get_playlist_item_id_from_cache(url, source_playlist, user_id)
+                        if target_playlist_id and source_playlist_item_id:
+                            youtube_api.move_video(user_id, source_playlist_item_id, target_playlist_id, vid)
+                            update_cache_for_move(url, source_playlist, target_playlist, user_id)
+                            success = True
+                except Exception as e:
+                    append_agent_log(f"Error applying action for {title}: {e}")
+                    success = False
+                    
+                if success:
+                    success_count += 1
+                    applied_actions.append(a)
+                    append_agent_log(f"Successfully applied action for: {title}")
+                    
+                    from apply_maintenance import record_history
+                    action_id = record_history(a, user_id)
+                    a["action_id"] = action_id
+                    
+                    channel_name = a.get("channel")
+                    category_name = a.get("to") or a.get("keep")
+                    if channel_name and category_name:
+                        db_helper.save_user_rule(user_id, channel_name, category_name)
+                else:
+                    append_agent_log(f"Failed to apply action for: {title}")
+                    remaining_actions.append(a)
+            else:
+                remaining_actions.append(a)
+                
+        with open(maint_path, "w", encoding="utf-8") as f:
+            json.dump(remaining_actions, f, indent=2, ensure_ascii=False)
+            
+        append_agent_log(f"Batch maintenance completed. Successfully applied {success_count} of {total} actions.")
+        
+        if applied_actions:
+            try:
+                from apply_maintenance import send_discord_history_report
+                send_discord_history_report(applied_actions)
+            except Exception as ex:
+                append_agent_log(f"Failed to send Discord history report: {ex}")
+                
+        scheduler.send_webhook_notification(f"Batch maintenance completed. Applied {success_count}/{total} actions.")
+        
+    except Exception as e:
+        append_agent_log(f"Fatal error in batch maintenance execution: {e}")
+        scheduler.send_webhook_notification(f"Batch maintenance execution failed: {e}", is_error=True)
+    finally:
+        with task_manager.lock:
+            task_manager.active_job = None
+            with scheduler.job_lock:
+                scheduler.active_job = None
+
 @app.post("/api/maintenance/apply-single")
-def apply_single_action(req: SingleActionRequest, background_tasks: BackgroundTasks):
-    maint_path = os.path.join(os.path.dirname(__file__), "maintenance_actions.json")
+def apply_single_action(req: SingleActionRequest, background_tasks: BackgroundTasks, user=Depends(get_current_user)):
+    user_id = user.get("user_id") if "user_id" in user else user.get("id")
+    maint_path = get_user_file_path("maintenance_actions.json", user)
     if not os.path.exists(maint_path):
         raise HTTPException(status_code=404, detail="Queue file not found")
+        
+    if is_oauth_configured():
+        success, msg = task_manager.run_function(
+            f"Apply Single Action ({req.vid})",
+            execute_batch_maintenance_api_background,
+            (user_id, [req.vid])
+        )
+        if not success:
+            raise HTTPException(status_code=400, detail=msg)
+        return {"success": True, "message": "Executing action in background..."}
         
     try:
         with open(maint_path, "r", encoding="utf-8") as f:
@@ -2098,10 +2208,8 @@ def apply_single_action(req: SingleActionRequest, background_tasks: BackgroundTa
         if not action:
             raise HTTPException(status_code=404, detail="Action not found in queue")
             
-        # Queue the browser operation in FastAPI background tasks
         background_tasks.add_task(execute_single_action_background, action)
         
-        # Remove from queue immediately
         updated_actions = [a for a in actions if a.get("vid") != req.vid]
         with open(maint_path, "w", encoding="utf-8") as f:
             json.dump(updated_actions, f, indent=2, ensure_ascii=False)
@@ -2188,10 +2296,21 @@ def execute_batch_maintenance_background(actions):
                 scheduler.active_job = None
 
 @app.post("/api/maintenance/batch-apply")
-def api_batch_apply_maintenance(req: BatchMaintenanceRequest):
-    maint_path = os.path.join(os.path.dirname(__file__), "maintenance_actions.json")
+def api_batch_apply_maintenance(req: BatchMaintenanceRequest, user=Depends(get_current_user)):
+    user_id = user.get("user_id") if "user_id" in user else user.get("id")
+    maint_path = get_user_file_path("maintenance_actions.json", user)
     if not os.path.exists(maint_path):
         raise HTTPException(status_code=404, detail="Queue file not found")
+        
+    if is_oauth_configured():
+        success, msg = task_manager.run_function(
+            f"Batch Maintenance ({len(req.vids)} items)",
+            execute_batch_maintenance_api_background,
+            (user_id, req.vids)
+        )
+        if not success:
+            raise HTTPException(status_code=400, detail=msg)
+        return {"success": True, "message": f"Successfully queued batch execution of {len(req.vids)} actions."}
         
     try:
         with open(maint_path, "r", encoding="utf-8") as f:
@@ -2201,7 +2320,6 @@ def api_batch_apply_maintenance(req: BatchMaintenanceRequest):
         if not selected_actions:
             raise HTTPException(status_code=400, detail="No matching actions found in queue")
             
-        # Queue the batch process in the background task manager
         success, msg = task_manager.run_function(
             f"Batch Maintenance ({len(selected_actions)} items)", 
             execute_batch_maintenance_background, 
@@ -2210,7 +2328,6 @@ def api_batch_apply_maintenance(req: BatchMaintenanceRequest):
         if not success:
             raise HTTPException(status_code=400, detail=msg)
         
-        # Remove them from queue immediately
         updated_actions = [a for a in actions if a.get("vid") not in req.vids]
         with open(maint_path, "w", encoding="utf-8") as f:
             json.dump(updated_actions, f, indent=2, ensure_ascii=False)
@@ -2222,20 +2339,32 @@ def api_batch_apply_maintenance(req: BatchMaintenanceRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/maintenance/batch-discard")
-def api_batch_discard_maintenance(req: BatchMaintenanceRequest):
-    maint_path = os.path.join(os.path.dirname(__file__), "maintenance_actions.json")
+def api_batch_discard_maintenance(req: BatchMaintenanceRequest, user=Depends(get_current_user)):
+    user_id = user.get("user_id") if "user_id" in user else user.get("id")
+    maint_path = get_user_file_path("maintenance_actions.json", user)
     if not os.path.exists(maint_path):
         raise HTTPException(status_code=404, detail="Queue file not found")
         
     try:
+        with open(maint_path, "r", encoding="utf-8") as f:
+            actions = json.load(f)
+            
         # Learn rules for any discarded misplaced actions (retains current playlist category)
-        from apply_maintenance import learn_channel_rule
-        for a in actions:
-            if a.get("vid") in req.vids and a.get("type") == "MISPLACED":
-                channel = a.get("channel")
-                current_playlist = a.get("from")[0] if a.get("from") else None
-                if channel and current_playlist:
-                    learn_channel_rule(channel, current_playlist)
+        if is_oauth_configured():
+            for a in actions:
+                if a.get("vid") in req.vids and a.get("type") == "MISPLACED":
+                    channel = a.get("channel")
+                    current_playlist = a.get("from")[0] if a.get("from") else None
+                    if channel and current_playlist:
+                        db_helper.save_user_rule(user_id, channel, current_playlist)
+        else:
+            from apply_maintenance import learn_channel_rule
+            for a in actions:
+                if a.get("vid") in req.vids and a.get("type") == "MISPLACED":
+                    channel = a.get("channel")
+                    current_playlist = a.get("from")[0] if a.get("from") else None
+                    if channel and current_playlist:
+                        learn_channel_rule(channel, current_playlist)
 
         updated_actions = [a for a in actions if a.get("vid") not in req.vids]
         with open(maint_path, "w", encoding="utf-8") as f:
