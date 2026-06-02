@@ -136,6 +136,40 @@ def auth_callback(request: Request, code: str):
     )
     return response
 
+@app.get("/api/auth/demo")
+def auth_demo(request: Request):
+    email = "demo@user.com"
+    name = "Demo Reviewer"
+    user_id = db_helper.get_or_create_user(email, name)
+    
+    db_helper.save_user_credentials(user_id, "mock_access_token", "mock_refresh_token", 3600)
+    db_helper.import_default_rules_if_empty(user_id)
+    
+    for base_file in ["playlists_report.json", "maintenance_actions.json", "ai_classifications.json", "categorized_playlists.json", "ai_cache_hits.txt"]:
+        src = os.path.join(os.path.dirname(__file__), base_file)
+        if os.path.exists(src):
+            base, ext = os.path.splitext(base_file)
+            dest = os.path.join(os.path.dirname(__file__), f"{base}_{user_id}{ext}")
+            try:
+                import shutil
+                shutil.copy2(src, dest)
+            except Exception as e:
+                print(f"Error copying {base_file} for demo user: {e}")
+                
+    session_id = str(uuid.uuid4())
+    db_helper.create_session(session_id, user_id)
+    
+    response = RedirectResponse(url="/")
+    response.set_cookie(
+        key="session_id",
+        value=session_id,
+        httponly=True,
+        max_age=86400 * 30,
+        samesite="lax",
+        secure=False
+    )
+    return response
+
 @app.post("/api/auth/logout")
 def auth_logout(response: Response, session_id: Optional[str] = Cookie(None)):
     if session_id:
