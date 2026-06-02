@@ -732,7 +732,7 @@ def execute_batch_move_background(video_urls: List[str], source_playlist: str, t
     append_agent_log(f"Starting batch move of {total} videos from '{source_playlist}' to '{target_playlist}' (user_id={user_id}).")
     
     if is_oauth_configured() and user_id is not None:
-        import youtube_api
+        import yt_api
         success_count = 0
         try:
             target_playlist_id = get_playlist_id_by_name(target_playlist, user_id)
@@ -753,7 +753,7 @@ def execute_batch_move_background(video_urls: List[str], source_playlist: str, t
                     source_playlist_item_id = get_playlist_item_id_from_cache(url, source_playlist, user_id)
                     if not source_playlist_item_id:
                         raise ValueError(f"Source item ID for '{url}' not found")
-                    success = youtube_api.move_video(user_id, source_playlist_item_id, target_playlist_id, vid)
+                    success = yt_api.move_video(user_id, source_playlist_item_id, target_playlist_id, vid)
                 except Exception as e:
                     append_agent_log(f"Error moving {url}: {e}")
                     
@@ -863,7 +863,7 @@ def execute_batch_delete_background(video_urls: List[str], playlist: str, user_i
     append_agent_log(f"Starting batch delete of {total} videos from '{playlist}' (user_id={user_id}).")
     
     if is_oauth_configured() and user_id is not None:
-        import youtube_api
+        import yt_api
         success_count = 0
         try:
             for i, url in enumerate(video_urls):
@@ -880,7 +880,7 @@ def execute_batch_delete_background(video_urls: List[str], playlist: str, user_i
                     playlist_item_id = get_playlist_item_id_from_cache(url, playlist, user_id)
                     if not playlist_item_id:
                         raise ValueError(f"playlistItem ID for '{url}' not found in '{playlist}'")
-                    success = youtube_api.remove_video_from_playlist(user_id, playlist_item_id)
+                    success = yt_api.remove_video_from_playlist(user_id, playlist_item_id)
                 except Exception as e:
                     append_agent_log(f"Error deleting {url}: {e}")
                     
@@ -988,7 +988,7 @@ def execute_multi_source_move_background(items: List[dict], target_playlist: str
     append_agent_log(f"Starting multi-source batch move of {total} videos to '{target_playlist}' (user_id={user_id}).")
     
     if is_oauth_configured() and user_id is not None:
-        import youtube_api
+        import yt_api
         success_count = 0
         try:
             target_playlist_id = get_playlist_id_by_name(target_playlist, user_id)
@@ -1012,7 +1012,7 @@ def execute_multi_source_move_background(items: List[dict], target_playlist: str
                     source_playlist_item_id = get_playlist_item_id_from_cache(url, source_playlist, user_id)
                     if not source_playlist_item_id:
                         raise ValueError(f"Source item ID for '{url}' not found")
-                    success = youtube_api.move_video(user_id, source_playlist_item_id, target_playlist_id, vid)
+                    success = yt_api.move_video(user_id, source_playlist_item_id, target_playlist_id, vid)
                 except Exception as e:
                     append_agent_log(f"Error moving {url}: {e}")
                     
@@ -1145,7 +1145,7 @@ def execute_multi_source_delete_background(items: List[dict], user_id=None):
     append_agent_log(f"Starting multi-source batch delete of {total} videos (user_id={user_id}).")
     
     if is_oauth_configured() and user_id is not None:
-        import youtube_api
+        import yt_api
         success_count = 0
         try:
             for i, item in enumerate(items):
@@ -1165,7 +1165,7 @@ def execute_multi_source_delete_background(items: List[dict], user_id=None):
                     playlist_item_id = get_playlist_item_id_from_cache(url, playlist, user_id)
                     if not playlist_item_id:
                         raise ValueError(f"playlistItem ID for '{url}' not found in '{playlist}'")
-                    success = youtube_api.remove_video_from_playlist(user_id, playlist_item_id)
+                    success = yt_api.remove_video_from_playlist(user_id, playlist_item_id)
                 except Exception as e:
                     append_agent_log(f"Error deleting {url}: {e}")
                     
@@ -1306,7 +1306,7 @@ def execute_remove_duplicates_background(playlist_name: str, user_id=None):
         append_agent_log(f"Found {total} duplicate videos to resolve in '{playlist_name}'.")
         
         if is_oauth_configured() and user_id is not None:
-            import youtube_api
+            import yt_api
             success_count = 0
             try:
                 target_playlist_id = get_playlist_id_by_name(playlist_name, user_id)
@@ -1330,14 +1330,14 @@ def execute_remove_duplicates_background(playlist_name: str, user_id=None):
                                 item_id = item.get("playlist_item_id")
                                 if item_id:
                                     try:
-                                        youtube_api.remove_video_from_playlist(user_id, item_id)
+                                        yt_api.remove_video_from_playlist(user_id, item_id)
                                     except Exception as ex:
                                         append_agent_log(f"Error removing item {item_id}: {ex}")
                                         deleted_all = False
                             
                             vid = extract_video_id(url)
                             if deleted_all:
-                                youtube_api.add_video_to_playlist(user_id, target_playlist_id, vid)
+                                yt_api.add_video_to_playlist(user_id, target_playlist_id, vid)
                                 success_count += 1
                                 append_agent_log(f"Successfully resolved duplicate for '{title}' via API.")
                                 
@@ -1360,7 +1360,7 @@ def execute_remove_duplicates_background(playlist_name: str, user_id=None):
                 append_agent_log(f"Duplicate cleanup completed. Successfully resolved {success_count} of {total} duplicates in '{playlist_name}'.")
                 
                 append_agent_log(f"Refreshing live video list for '{playlist_name}'...")
-                refreshed_videos = youtube_api.list_videos_in_playlist(user_id, target_playlist_id)
+                refreshed_videos = yt_api.list_videos_in_playlist(user_id, target_playlist_id)
                 with open(report_path, "r", encoding="utf-8") as f:
                     report = json.load(f)
                 for p in report:
@@ -1474,12 +1474,12 @@ def get_playlist_videos(playlist_url: str, refresh: bool = False, user=Depends(g
         playlist_id = playlist_url
 
     if is_oauth_configured() and playlist_id:
-        import youtube_api
+        import yt_api
         try:
-            videos = youtube_api.list_videos_in_playlist(user_id, playlist_id)
+            videos = yt_api.list_videos_in_playlist(user_id, playlist_id)
             return {"videos": videos}
         except Exception as e:
-            print(f"YouTube API failed to fetch videos, falling back to cache: {e}")
+            print(f"YT API failed to fetch videos, falling back to cache: {e}")
 
     need_refresh = refresh
     cached_videos = []
@@ -1660,7 +1660,7 @@ def execute_move_single_background(video_url: str, source_playlist: str, target_
         
     success = False
     if is_oauth_configured() and user_id is not None:
-        import youtube_api
+        import yt_api
         try:
             target_playlist_id = get_playlist_id_by_name(target_playlist, user_id)
             source_playlist_item_id = get_playlist_item_id_from_cache(video_url, source_playlist, user_id)
@@ -1668,7 +1668,7 @@ def execute_move_single_background(video_url: str, source_playlist: str, target_
                 raise ValueError(f"Target playlist '{target_playlist}' not found in user cache")
             if not source_playlist_item_id:
                 raise ValueError(f"Source item ID for '{video_url}' not found in '{source_playlist}'")
-            success = youtube_api.move_video(user_id, source_playlist_item_id, target_playlist_id, vid)
+            success = yt_api.move_video(user_id, source_playlist_item_id, target_playlist_id, vid)
         except Exception as e:
             append_agent_log(f"OAuth single move failed: {e}")
             success = False
@@ -1802,7 +1802,7 @@ def get_rules(user=Depends(get_current_user)):
     user_id = user.get("user_id") if "user_id" in user else user.get("id")
     
     rules_md = ""
-    rules_path = os.path.join(os.path.dirname(__file__), "youtube_rules.promptinclude.md")
+    rules_path = os.path.join(os.path.dirname(__file__), "yt_rules.promptinclude.md")
     if os.path.exists(rules_path):
         try:
             with open(rules_path, "r", encoding="utf-8") as f:
@@ -1811,7 +1811,7 @@ def get_rules(user=Depends(get_current_user)):
         
     if not is_oauth_configured():
         channels_txt = ""
-        chan_path = os.path.join(os.path.dirname(__file__), "youtube_category_channel_map.txt")
+        chan_path = os.path.join(os.path.dirname(__file__), "yt_category_channel_map.txt")
         if os.path.exists(chan_path):
             try:
                 with open(chan_path, "r", encoding="utf-8") as f:
@@ -1827,12 +1827,12 @@ def get_rules(user=Depends(get_current_user)):
 def save_rules(req: RulesSaveRequest, user=Depends(get_current_user)):
     user_id = user.get("user_id") if "user_id" in user else user.get("id")
     try:
-        rules_path = os.path.join(os.path.dirname(__file__), "youtube_rules.promptinclude.md")
+        rules_path = os.path.join(os.path.dirname(__file__), "yt_rules.promptinclude.md")
         with open(rules_path, "w", encoding="utf-8") as f:
             f.write(req.rules_md)
             
         if not is_oauth_configured():
-            chan_path = os.path.join(os.path.dirname(__file__), "youtube_category_channel_map.txt")
+            chan_path = os.path.join(os.path.dirname(__file__), "yt_category_channel_map.txt")
             with open(chan_path, "w", encoding="utf-8") as f:
                 f.write(req.channels_txt)
         else:
@@ -1896,7 +1896,7 @@ def api_generate_maintenance(user=Depends(get_current_user)):
 def execute_apply_maintenance_background(user_id, force=False):
     append_agent_log(f"Starting API-based maintenance queue execution (user_id={user_id}).")
     
-    import youtube_api
+    import yt_api
     maint_path = os.path.join(os.path.dirname(__file__), f"maintenance_actions_{user_id}.json")
     if not os.path.exists(maint_path):
         append_agent_log("No maintenance queue found.")
@@ -1935,7 +1935,7 @@ def execute_apply_maintenance_background(user_id, force=False):
                     for p in remove_playlists:
                         playlist_item_id = get_playlist_item_id_from_cache(url, p, user_id)
                         if playlist_item_id:
-                            youtube_api.remove_video_from_playlist(user_id, playlist_item_id)
+                            yt_api.remove_video_from_playlist(user_id, playlist_item_id)
                             update_cache_for_delete(url, p, user_id)
                             success = True
                 elif action_type == "MISPLACED":
@@ -1944,7 +1944,7 @@ def execute_apply_maintenance_background(user_id, force=False):
                     target_playlist_id = get_playlist_id_by_name(target_playlist, user_id)
                     source_playlist_item_id = get_playlist_item_id_from_cache(url, source_playlist, user_id)
                     if target_playlist_id and source_playlist_item_id:
-                        youtube_api.move_video(user_id, source_playlist_item_id, target_playlist_id, vid)
+                        yt_api.move_video(user_id, source_playlist_item_id, target_playlist_id, vid)
                         update_cache_for_move(url, source_playlist, target_playlist, user_id)
                         success = True
             except Exception as e:
@@ -2125,7 +2125,7 @@ def execute_single_action_background(action):
 def execute_batch_maintenance_api_background(user_id, selected_vids):
     append_agent_log(f"Starting API-based batch maintenance of {len(selected_vids)} videos (user_id={user_id}).")
     
-    import youtube_api
+    import yt_api
     maint_path = os.path.join(os.path.dirname(__file__), f"maintenance_actions_{user_id}.json")
     if not os.path.exists(maint_path):
         append_agent_log("No maintenance queue found.")
@@ -2159,7 +2159,7 @@ def execute_batch_maintenance_api_background(user_id, selected_vids):
                         for p in remove_playlists:
                             playlist_item_id = get_playlist_item_id_from_cache(url, p, user_id)
                             if playlist_item_id:
-                                youtube_api.remove_video_from_playlist(user_id, playlist_item_id)
+                                yt_api.remove_video_from_playlist(user_id, playlist_item_id)
                                 update_cache_for_delete(url, p, user_id)
                                 success = True
                     elif action_type == "MISPLACED":
@@ -2168,7 +2168,7 @@ def execute_batch_maintenance_api_background(user_id, selected_vids):
                         target_playlist_id = get_playlist_id_by_name(target_playlist, user_id)
                         source_playlist_item_id = get_playlist_item_id_from_cache(url, source_playlist, user_id)
                         if target_playlist_id and source_playlist_item_id:
-                            youtube_api.move_video(user_id, source_playlist_item_id, target_playlist_id, vid)
+                            yt_api.move_video(user_id, source_playlist_item_id, target_playlist_id, vid)
                             update_cache_for_move(url, source_playlist, target_playlist, user_id)
                             success = True
                 except Exception as e:
@@ -2414,10 +2414,10 @@ def run_scan(user=Depends(get_current_user)):
         success, msg = task_manager.run_task("scan", ["cli.py", "scan"])
     else:
         user_id = user.get("user_id") if "user_id" in user else user.get("id")
-        import youtube_api
+        import yt_api
         success, msg = task_manager.run_function(
             "scan",
-            youtube_api.run_api_scan_and_save,
+            yt_api.run_api_scan_and_save,
             (user_id,)
         )
     if success:

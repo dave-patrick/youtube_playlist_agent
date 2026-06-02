@@ -804,7 +804,7 @@ async function loadPlaylists() {
                         <button class="icon-btn rescan-single-btn" onclick="event.stopPropagation(); rescanSinglePlaylist('${p.name.replace(/'/g, "\\'")}', '${p.url}', this)" title="Rescan playlist" style="background: transparent; border: none; color: var(--text-secondary); cursor: pointer; padding: 4px; display: inline-flex; align-items: center; justify-content: center; transition: color 0.2s;">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
                         </button>
-                        <a href="${p.url}" target="_blank" style="color: var(--primary); text-decoration: none; font-size: 0.85rem;" onclick="event.stopPropagation()">View on YouTube ↗</a>
+                        <a href="${p.url}" target="_blank" style="color: var(--primary); text-decoration: none; font-size: 0.85rem;" onclick="event.stopPropagation()">View on YT ↗</a>
                     </div>
                 </div>
             `;
