@@ -104,6 +104,10 @@ def get_target_cat(title, channel, channel_map, vid=None, ai_classifications=Non
     # Tana
     if matches(["tana"]): return "Tana", False
 
+    # TV (Trailers, except camper/overland trailers)
+    is_camping_trailer = matches(["camper", "camping", "overland", "offroad", "off-road", "off road", "utility", "cargo", "teardrop", "tow", "towing", "rig", "trailer build", "trailer setup", "diy trailer"])
+    if matches(["trailer"]) and not is_camping_trailer:
+        return "TV", False
 
     # Truck (must go to Truck and nowhere else - not Auto, and not Overland)
     if matches(["tacoma", "truck", "pickup", "bed divider", "tailgate", "bed rack"]): return "Truck", False
