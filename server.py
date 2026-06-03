@@ -1473,15 +1473,6 @@ def get_playlist_videos(playlist_url: str, refresh: bool = False, user=Depends(g
     else:
         playlist_id = playlist_url
 
-    if is_oauth_configured() and playlist_id:
-        import yt_api
-        try:
-            videos = yt_api.list_videos_in_playlist(user_id, playlist_id)
-            return {"videos": videos}
-        except Exception as e:
-            print(f"YT API failed to fetch videos, falling back to cache: {e}")
-
-    need_refresh = refresh
     cached_videos = []
     playlist_name = ""
     
@@ -1490,16 +1481,27 @@ def get_playlist_videos(playlist_url: str, refresh: bool = False, user=Depends(g
             with open(report_path, "r", encoding="utf-8") as f:
                 report = json.load(f)
             for p in report:
-                if p["url"] == playlist_url or playlist_url in p["url"] or p.get("id") == playlist_id:
+                if p.get("url") == playlist_url or (p.get("url") and playlist_url in p["url"]) or p.get("id") == playlist_id:
                     cached_videos = p.get("videos", [])
                     playlist_name = p["name"]
                     break
         except: pass
         
-    if not need_refresh and cached_videos:
-        if any("published" not in v for v in cached_videos):
-            need_refresh = True
-            
+    if not refresh and cached_videos:
+        return {"videos": cached_videos}
+
+    if is_oauth_configured() and playlist_id:
+        import yt_api
+        try:
+            videos = yt_api.list_videos_in_playlist(user_id, playlist_id)
+            return {"videos": videos}
+        except Exception as e:
+            print(f"YT API failed to fetch videos, falling back to cache: {e}")
+            if cached_videos:
+                return {"videos": cached_videos}
+            raise HTTPException(status_code=500, detail=f"API fetch failed and no cache available: {e}")
+
+    need_refresh = refresh
     if not cached_videos and not playlist_name:
         need_refresh = True
         
