@@ -45,12 +45,8 @@ Absorbed Self Reliance:Knives - Howto
 Access Hollywood:TV
 Action Movie Kids:Funny
 Active Physio Works:Exercise
-Adam Savage’s Tested:Star Wars
 ADHDVision:Productivity Stuff
-Adobe Creative Cloud:Star Wars
 Adobe Photoshop:Watch Someday
-Adult Swim:Star Wars
-Adult Swim Europe:Star Wars
 Aduzto:Music
 Adv4x4:Overland
 Advanced Tinkering:Learning
@@ -183,7 +179,6 @@ Backlinking podcast and DPA:Productivity Stuff
 Backwoods Films:Music
 Backyard Maine:Maker
 BackyardBowyer:Knives - Howto
-Bad Lip Reading:Star Wars
 BANGERTV - All Metal:Music
 Barnhunter:Music
 Barry Kidd:Photo Tutorials
@@ -447,7 +442,6 @@ depeche MODE / MODEontheROAD:Music
 Derrick Faulks:3D Printing Watch
 Desert Sasquatch:Bigfoot
 Deus Ex:Short films
-devinsupertramp:Star Wars
 DevWithZachary:Mobile
 Diane Spencer Stand-up Comedian:Entertainment
 Digital Inspiration:Learning
@@ -499,7 +493,6 @@ Driving Sports TV:Truck
 Drone U:Arizona
 Drone Valley:Drones
 DronesGator:Drones
-Dropout:Star Wars
 Drumeo:Music
 drumtalk:Music
 DualEx:Truck
@@ -565,7 +558,6 @@ Expedition Portal:Overland
 Expedition Portal and Bound For Nowhere:Overland
 ExPlaned:Aviation
 Exposed Discoveries:Learning
-eXquisite Gaming:Star Wars
 Extinct Zoo:Learning
 ExtinctZoo:Learning
 Extratxt:Productivity Stuff
@@ -637,7 +629,6 @@ FTR Outdoors:Truck
 future Orginal Disovery:Learning
 Futurepedia:AI
 FutureSketchLab:AI
-fxguide:Star Wars
 FXitinPost:Star Wars
 Gadget Evolution:Tech
 Gal Gadot:Entertainment
@@ -668,7 +659,6 @@ Geosplain:Learning
 Get On The Bus:Music
 GGG4Runner:Overland
 GHTR:Music
-Giant Freakin Robot:Star Wars
 Gibson TV:Music
 github.untold:Mobile
 Giuliano De Luca:AI
@@ -736,10 +726,8 @@ HotshotTek:Mobile
 Household Hacker:Knives - Howto
 How I AI:AI
 How I Do Things Woodworking:Maker Idea
-How It Should Have Ended:Star Wars
 How Meets History:Learning
 How To:Watch Someday
-How To Drink:Star Wars
 How To Make Everything:Learning
 How To Support:Productivity Stuff
 How To X:Mobile
@@ -754,7 +742,6 @@ Ian in London:Drones
 Iconic Star Rewind:Entertainment
 ICOR with Tom | AI Productivity:AI
 Idiots in Bars and Nerd Locations:Star Wars
-IGN:Star Wars
 imperatur:Learning
 Imperial Studio:Star Wars
 improvingit (formerly Kerkhoff Technologies):Productivity Stuff
@@ -763,10 +750,8 @@ In a Heartbeat Animated Short Film:Short films
 In Flames:Music
 In The Kitchen With Matt:Food
 Independence Overland:Overland
-Industrial Light & Magic:Star Wars
 Inheritance Machining:Maker
 Inside Joke at Moontower:Music
-Inside the Magic:Star Wars
 Inside The Music:Music
 Insider:Cosplay
 Inspire Woodcraft:Maker Idea
@@ -913,7 +898,6 @@ Kro:Star Wars
 Ksk Royal:AI
 KTLA 5:Music
 ktulu1971:Music
-Kuma Films:Star Wars
 Kyle Hill:Learning
 Kyle Sr:Music
 Lab Cache:Fusion 360
@@ -993,7 +977,6 @@ Machine Head:Music Videos
 Macro USB:Mobile
 MAGA:Music
 Magellan and Greyhound:Truck
-MagicofRahat:Star Wars
 Make It Kustom:Welding
 Make It Work:Smart Home Stuff
 Make or Break Shop:Laser
@@ -1136,7 +1119,6 @@ Mother Daughter Projects DIY:Maker Idea
 MotleyCrueforever1:Music
 Mountain State Overland:Overland
 MountainBeastMysteries:Bigfoot
-mouseinfo:Star Wars
 Movie Overload:Entertainment
 Movie Recaps with Brian:Star Wars
 MOVIE SPY:Star Wars
@@ -1185,7 +1167,6 @@ NeedItMakeIt:3D Printing Watch
 NeoGamer - The Video Game Archive:Star Wars
 Neon Mammoth:Music
 Nerd of the Rings:Entertainment
-Nerdist:Star Wars
 nerojotun:Music
 Netflix:Entertainment
 Neural Derp Memes:Star Wars
@@ -1308,7 +1289,6 @@ plywoodworking:Maker Idea
 Pneumatic Addict:Maker
 Pod of Mandalore:Star Wars
 PolandsFinest:Star Wars
-PostmodernJukebox:Star Wars
 PowerToCreateTV:Photo Tutorials
 PPM Works:Productivity Stuff
 Pragmatic Works:AI
@@ -1398,7 +1378,6 @@ Riverside Woodworks:Laser
 Roadrunner Records:Music Videos
 Roaming Reckless:Truck
 Rob Knight:GX7
-Rob Landes:Star Wars
 Rob Scallon:Music
 Rob The AI Guy:AI
 RobCosman.com:Maker Idea
@@ -1411,7 +1390,6 @@ Rock N' Roll True Stories:Music
 Rock N' Roll True Stories 2:Music
 Rock Radar:Music
 Rock-n H Woodshop:Maker Idea
-RocketJump:Star Wars
 ROCKIN-74 RON:Music
 rocknrollLuxor:Watch Someday
 RockRadar:Music
@@ -1424,8 +1402,6 @@ Rogelio Gonzalez:Drone Places
 Ronald Shockley:Music
 Root History and History Reload Quest:Learning
 Ropen Network:Learning
-Rotten Tomatoes Trailers:Star Wars
-Rotten Tomatoes TV:Star Wars
 Rowena Tsai:Productivity Stuff
 RubberTrampRenegade:Truck
 Rubén Conde Arenzana:Music
@@ -1458,7 +1434,6 @@ Santi Younger:AI
 Sara Loera:Music
 Sarah Lloyde:Music
 sarah pan:Productivity Stuff
-Saturday Night Live:Star Wars
 Say Hello 2 Soundgarden:Music
 Scale Addiction:3D Printing Software
 Schadenfreude Industries:Cosplay
@@ -1470,7 +1445,6 @@ Scott Turner:Welding
 Scott Walsh:Shop Stuff To Watch
 Scream Dudes:Music
 Scream Dudes and Machine Head:Music
-Screen Junkies:Star Wars
 Screen Team:Star Wars
 ScreenRant Plus:Star Wars
 SEAN LONG:Star Wars
@@ -1633,7 +1607,6 @@ SWEROK+:Star Wars
 SWFT:Star Wars
 swtheoldrepublic:Star Wars
 SXSW:Star Wars
-Syd Wilder:Star Wars
 szink37:Music
 T-Minus365:Productivity Stuff
 T-Mobile:Camping
@@ -1651,7 +1624,6 @@ Tana Central and Simon Creates:Tana Inc - all content (Playlist)
 Tank Sports:Football
 TankTheTech:Music
 Tao Prompts:AI
-Taylor Davis:Star Wars
 Teacher's Tech:Productivity Stuff
 Teaching Tech:3D Printing Watch
 Teal:Productivity Stuff
@@ -2157,7 +2129,6 @@ Doug DeMuro:Auto
 Action Retro:Tech
 Marques Brownlee:Tech
 Bri's Heat:Food
-Corridor Digital:Star Wars
 Top Generality:Learning
 Eddie Sharam Animation:Short films
 DPReview TV:Photo
@@ -2295,7 +2266,6 @@ Punished Props Academy:Tech
 Dude Sawdust:Entertainment
 Sam Macy Designs:Star Wars
 Dr. Pierre Laurent | Santé des personnes âgées:Music
-Mitch Peacock • Designer Woodworker:Star Wars
 WOOD magazine:Music
 The Dusty Lumber Co:Entertainment
 Kreg Tool:Woodworking
@@ -2306,7 +2276,6 @@ Small Town Monsters:Bigfoot
 Kristian Harloff:Star Wars
 Buckin' Billy Ray Smith:Overland
 CNET Cars:Auto
-Spencley Design Co.:Star Wars
 Hayden Noelle:Arizona
 Sensing Ground: Living with all Eight Senses:Health
 BLV:Music Videos
@@ -2328,7 +2297,6 @@ Sarah -n- Tuned:Truck
 TacoMan D:Truck
 WeberAuto:Auto
 Carfleet:Overland
-Mohawk Designs Off-Road:Star Wars
 Jon Manjeot:Arizona
 Drivin' and Vibin':Arizona
 Slim Potatohead:Arizona

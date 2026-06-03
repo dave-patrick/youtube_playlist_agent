@@ -97,10 +97,26 @@ def is_in_window():
     return now >= 22 or now < 6
 
 
-def learn_channel_rule(channel, category):
+def learn_channel_rule(channel, category, is_auto_learned=True):
     if not channel or not category:
         return
+        
+    if is_auto_learned:
+        blacklist = {
+            "adam savage’s tested", "adam savage's tested", "adobe creative cloud", "adult swim", "adult swim europe",
+            "bad lip reading", "corridor digital", "dropout", "giant freakin robot", "how it should have ended",
+            "how to drink", "ign", "industrial light & magic", "inside the magic", "mitch peacock • designer woodworker",
+            "mohawk designs off-road", "nerdist", "postmodernjunkebox", "postmodern jukebox", "rob landes", "rocketjump",
+            "rotten tomatoes tv", "rotten tomatoes trailers", "saturday night live", "screen junkies",
+            "spencley design co.", "syd wilder", "taylor davis", "devinsupertramp", "exquisite gaming",
+            "fxguide", "mouseinfo", "kuma films", "magicofrahat"
+        }
+        if channel.strip().lower() in blacklist:
+            print(f"Skipping auto-learned rule for blacklisted multi-topic channel: {channel}")
+            return
+            
     chan_path = os.path.join(os.path.dirname(__file__), "yt_category_channel_map.txt")
+
     try:
         lines = []
         if os.path.exists(chan_path):
