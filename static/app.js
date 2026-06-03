@@ -494,7 +494,7 @@ function renderMaintenanceQueue(actions) {
                     <span class="action-badge ${badgeClass}">${badgeText}</span>
                     ${aiBadge}
                 </div>
-                <span class="action-title">${a.title}</span>
+                <a class="action-title" href="https://www.youtube.com/watch?v=${a.vid}" target="_blank" title="Watch on YouTube" style="text-decoration: none; color: inherit; transition: color 0.2s ease;">${a.title}</a>
                 <span class="action-desc">${desc}</span>
             </div>
             <div class="action-buttons">

@@ -395,6 +395,12 @@ header {
     color: var(--text-primary);
 }
 
+.action-title:hover {
+    color: #6366f1; /* beautiful indigo accent color */
+    text-decoration: underline !important;
+}
+
+
 .action-desc {
     font-size: 0.85rem;
     color: var(--text-secondary);

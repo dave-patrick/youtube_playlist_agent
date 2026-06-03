@@ -101,6 +101,10 @@ def get_target_cat(title, channel, channel_map, vid=None, ai_classifications=Non
     if (matches(["xteink", "ereader", "e-reader", "kindle", "boox", "remarkable", "smartphone", "iphone", "pixel 8", "s24 ultra", "android"]) or is_samsung_galaxy) and not is_star_wars and not is_space:
         return "Mobile", False
 
+    # Tana
+    if matches(["tana"]): return "Tana", False
+
+
     # Truck (must go to Truck and nowhere else - not Auto, and not Overland)
     if matches(["tacoma", "truck", "pickup", "bed divider", "tailgate", "bed rack"]): return "Truck", False
     # Arizona
