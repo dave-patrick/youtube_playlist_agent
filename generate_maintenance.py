@@ -238,9 +238,17 @@ def generate_maintenance():
                     "channel": channel
                 })
             else:
-                # Keep the first one, remove others
-                keep = p_list[0]
-                remove = p_list[1:]
+                # If target_cat doesn't match any of the current playlists,
+                # check if there is a general/inbox playlist we can keep it in
+                general_matches = [p for p in p_list if p in ["Entertainment", "Learning", "Music", "Uncategorized"]]
+                if general_matches:
+                    keep = general_matches[0]
+                    remove = [p for p in p_list if p != keep]
+                else:
+                    # Keep the first one, remove others
+                    keep = p_list[0]
+                    remove = p_list[1:]
+                    
                 actions.append({
                     "type": "DUPLICATE_NO_TARGET",
                     "title": title,
