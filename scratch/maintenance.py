@@ -39,8 +39,8 @@ def maintenance():
         playlists = json.load(f)
         
     channel_map = {}
-    if os.path.exists('youtube_category_channel_map.txt'):
-        with open('youtube_category_channel_map.txt', 'r', encoding='utf-8') as f:
+    if os.path.exists('yt_category_channel_map.txt'):
+        with open('yt_category_channel_map.txt', 'r', encoding='utf-8') as f:
             for line in f:
                 if ':' in line:
                     chan, cat = line.strip().split(':', 1)

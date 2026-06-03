@@ -11,7 +11,7 @@ parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, parent_dir)
 
 # Set mock environment variable
-os.environ["MOCK_YOUTUBE"] = "1"
+os.environ["MOCK_YT"] = "1"
 
 # Path to maintenance history
 HISTORY_PATH = os.path.join(parent_dir, "maintenance_history.json")
@@ -52,7 +52,7 @@ def run_server():
     uvicorn.run(app, host="127.0.0.1", port=8000, log_level="warning")
 
 def main():
-    print("--- YouTube Playlist Agent: Rollback & Webhook Verification Test ---")
+    print("--- YT Playlist Agent: Rollback & Webhook Verification Test ---")
     
     # 1. Verify Discord Webhook Report Generation
     print("\n1. Verifying Discord Webhook Notification payload...")

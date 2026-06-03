@@ -1,4 +1,4 @@
-# YouTube Plugin — Agent Guide
+# YT Plugin — Agent Guide
 
 Extracts video transcripts via yt-dlp (preferred) with Playwright browser fallback.
 

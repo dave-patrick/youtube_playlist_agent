@@ -18,7 +18,7 @@ channels_to_check = [
     {"channel": "EBE-1 Films", "title": "1953 KINGMAN UFO CRASH a short film"},
     {"channel": "MrBiscuitSpeaks", "title": "I UNDERSTAND IT NOW | Metallica-Disposable Heroes | RAPPER REACTS"},
     {"channel": "Lord Gonchar", "title": "Blaze of Glory (Jon Bon Jovi) • Stripped-Down Gritty Country Rock Cover"},
-    {"channel": "YouTube Movies & TV", "title": "Death - Death By Metal"},
+    {"channel": "YT Movies & TV", "title": "Death - Death By Metal"},
     {"channel": "StateOfMercury", "title": "What If Disposable Heroes Was On ...And Justice For All?"},
     {"channel": "Cherdleys", "title": "Sorry For Nailing Your Daughter"},
     {"channel": "In Flames", "title": "In Flames - Borgholm Brinner 2018 (Official Documentary)"},
@@ -29,7 +29,7 @@ channels_to_check = [
 
 # Read channel map
 channel_map = {}
-with open("youtube_category_channel_map.txt", "r", encoding="utf-8") as f:
+with open("yt_category_channel_map.txt", "r", encoding="utf-8") as f:
     for line in f:
         if ":" in line:
             parts = line.strip().split(":")
@@ -38,7 +38,7 @@ with open("youtube_category_channel_map.txt", "r", encoding="utf-8") as f:
 
 # Read category IDs
 category_to_id = {}
-with open("youtube_rules.promptinclude.md", "r", encoding="utf-8") as f:
+with open("yt_rules.promptinclude.md", "r", encoding="utf-8") as f:
     for line in f:
         if line.strip().startswith("|") and "`PL" in line:
             parts = [p.strip() for p in line.split("|")]

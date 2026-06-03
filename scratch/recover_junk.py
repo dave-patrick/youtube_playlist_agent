@@ -1,7 +1,7 @@
 import re
 
 def recover_from_junk():
-    with open('youtube_category_channel_map.txt', 'rb') as f:
+    with open('yt_category_channel_map.txt', 'rb') as f:
         content = f.read()
     
     # Try all possible decodings
@@ -23,7 +23,7 @@ def recover_from_junk():
             continue
             
     if all_found:
-        with open('youtube_category_channel_map.txt', 'w', encoding='utf-8') as f:
+        with open('yt_category_channel_map.txt', 'w', encoding='utf-8') as f:
             f.write('\n'.join(sorted(list(all_found))) + '\n')
         print(f"Recovered {len(all_found)} mappings.")
     else:

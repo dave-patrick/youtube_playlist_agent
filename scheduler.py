@@ -25,7 +25,7 @@ def send_webhook_notification(message, is_error=False):
             return
             
         payload = {
-            "content": f"🔔 **YouTube Playlist Agent**: {message}" if not is_error else f"⚠️ **YouTube Playlist Agent Error**: {message}"
+            "content": f"🔔 **YT Playlist Agent**: {message}" if not is_error else f"⚠️ **YT Playlist Agent Error**: {message}"
         }
         
         requests.post(webhook_url, json=payload, timeout=5)

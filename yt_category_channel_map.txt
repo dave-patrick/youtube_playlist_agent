@@ -91,7 +91,7 @@ Alex Hormozi:Productivity Stuff
 Alex Ziskind:AI
 alfonso ciuffaidi:Music
 Alfox:AI
-Ali Abdaal:Productivity Stuff
+Ali Abdaal:AI
 Ali Solanki:Mobile
 Alice In Chains:Concerts
 All Strong Fitness:Exercise
@@ -130,7 +130,7 @@ Antiquity and Project Genesis:Learning
 Anunnaki Revealed:Learning
 Apocalyptica:Music Videos
 appsntips:Productivity Stuff
-AppX:Mobile
+AppX:AI
 April Wilkerson:Maker Idea
 Apurv Shaurya:Unreleased Metallica Songs
 Aragon Analytics:Knives - Howto
@@ -203,7 +203,7 @@ Benedetta Caretta:Music
 Benjamin Preston:AI
 BERNTH Guitar Academy and BERNTH:Music
 Best,:Funny
-Better Creating:Productivity Stuff
+Better Creating:AI
 Better Stack:AI
 Beyond the Map:Learning
 Beyond The Riffs:Music
@@ -340,7 +340,7 @@ Coda Records:Music
 Code 8 Movie:Short films
 Coffee in the Cloud:AI
 Cole Medin:AI
-Collab365:Productivity Stuff
+Collab365:AI
 Collaboration Simplified:Productivity Stuff
 Colorado Bigfoot:Bigfoot
 Colossal Biosciences:Learning
@@ -814,7 +814,7 @@ Jdavis882 - Knife Sharpening and Reviews:Knives - Howto
 JediPalProductions:Star Wars
 Jeepin Bubba:Overland
 Jeff Geerling:AI
-Jeff Springer:Mobile
+Jeff Springer:AI
 Jeff Springer and SammyGuru:Mobile
 Jeff Su:AI
 Jeffrey Webber:Productivity Stuff
@@ -1040,7 +1040,7 @@ Max Clark:Productivity Stuff
 Max Mogren:Truck
 Maximillian Fulton:Photo software
 Maximum Fear:Bigfoot
-MaximumDiver:Cosplay
+MaximumDiver:Music Videos
 Maxlvledc:Maker
 Mayhem Mendes:Entertainment
 McC Alexander:Drones
@@ -1305,7 +1305,7 @@ PlayBack80:Music
 Playing with Sticks:Overland
 Plebacus AI:Short films
 plywoodworking:Maker Idea
-Pneumatic Addict:Maker
+Pneumatic Addict:Learning
 Pod of Mandalore:Star Wars
 PolandsFinest:Star Wars
 PostmodernJukebox:Star Wars
@@ -1322,7 +1322,7 @@ Primordial Radio:Music
 Pro Photo Supply:GX7
 Produce Like A Pro:Music
 Product Design Online:Fusion 360
-Productive Dude:Productivity Stuff
+Productive Dude:AI
 Productive Tech:Productivity Stuff
 Productivity Game:Productivity Stuff
 Professor Historian:Learning
@@ -1334,7 +1334,7 @@ ProjectRevan:Star Wars
 PROJILITY:Productivity Stuff
 Prometheus of Videos:Star Wars
 Promise & Risk of AI - Risks, Benefits, no Hype:Entertainment
-Promptly Speaking Podcast and Tiago Forte:Productivity Stuff
+Promptly Speaking Podcast and Tiago Forte:AI
 Proper Honest Tech:Mobile
 PsycheTruth:Exercise
 Psycho Image Films:Star Wars
@@ -1464,7 +1464,7 @@ Scale Addiction:3D Printing Software
 Schadenfreude Industries:Cosplay
 Science Filmmaking Tips:Photo software
 Scott Barrett:Music
-Scott Brant:Productivity Stuff
+Scott Brant:AI
 SCOTT ON TAPE - Your Pop Culture Tour Guide:Music
 Scott Turner:Welding
 Scott Walsh:Shop Stuff To Watch
@@ -1611,7 +1611,7 @@ STORMTROOPERS:Star Wars
 StormtrooperVlogs:Star Wars
 Strange Garage:Welding
 Strata Files:Learning
-Strategic (AI) Design:Productivity Stuff
+Strategic (AI) Design:AI
 Stuart Kirwan:Music
 Stuart Ridout:Productivity Stuff
 Study of Antiquity and the Middle Ages:Learning
@@ -1840,7 +1840,7 @@ Tom Spurlock:Drone Places
 tommy blasé:Star Wars
 Tommy Linebarger:Truck
 Tom’ s Dreamshop Worx:Maker Idea
-Tool Finder:Productivity Stuff
+Tool Finder:AI
 Tool Review Zone:Maker
 Tool Tap AI:AI
 ToolifyX:Tech
@@ -1873,7 +1873,7 @@ Tyrell Knifeworks:Knives - Howto
 UC Today News:Productivity Stuff
 Ultimate Cinema's:Star Wars
 Uncle Jessy:Maker
-Undecided with Matt Ferrell:AI
+Undecided with Matt Ferrell:Learning
 Underhill Forge:Knives - Howto
 unimatrix31:Watch Someday
 Universal Pictures:Entertainment
@@ -2002,7 +2002,7 @@ Yonatan24:Maker Idea
 YOUCAR:TV
 Your Average Tech Bro:AI
 Your Couch Sucks!:Laser
-YouTube Movies & TV:Music Videos
+YT Movies & TV:Music Videos
 Yuttadhammo Bhikkhu:Learning
 Zac Builds:Maker Idea
 Zac Jones:Maker Idea

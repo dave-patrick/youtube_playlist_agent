@@ -47,7 +47,7 @@ def rebuild_map():
         mapping[chan] = cat
 
     # Write to file
-    with open('youtube_category_channel_map.txt', 'w', encoding='utf-8') as f:
+    with open('yt_category_channel_map.txt', 'w', encoding='utf-8') as f:
         for chan in sorted(mapping.keys()):
             f.write(f"{chan}:{mapping[chan]}\n")
             

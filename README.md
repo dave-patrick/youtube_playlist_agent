@@ -1,6 +1,6 @@
-# YouTube Playlist Agent
+# YT Playlist Agent
 
-An automated agent for managing YouTube playlists using browser automation. This is specifically designed to bypass YouTube API quota limitations and can be easily integrated into other AI systems.
+An automated agent for managing YT playlists using browser automation. This is specifically designed to bypass YT API quota limitations and can be easily integrated into other AI systems.
 
 ## Prerequisites
 
@@ -15,11 +15,11 @@ An automated agent for managing YouTube playlists using browser automation. This
    playwright install chromium
    ```
 
-2. **First-time Authentication**: You must log in to your YouTube account once so the agent can save your session data.
+2. **First-time Authentication**: You must log in to your YT account once so the agent can save your session data.
    ```bash
    python auth_setup.py
    ```
-   A browser window will open. Navigate to YouTube, log in, and close the browser when done. The session will be saved locally.
+   A browser window will open. Navigate to YT, log in, and close the browser when done. The session will be saved locally.
 
 ## Usage for other AIs
 
@@ -64,4 +64,4 @@ python server.py
 ```
 
 ## Note on Reliability
-Because this uses browser automation (Playwright), it simulates a real user clicking buttons. If YouTube changes its User Interface (e.g. changing the label of the "Save" button), the `core.py` script might need to be updated.
+Because this uses browser automation (Playwright), it simulates a real user clicking buttons. If YT changes its User Interface (e.g. changing the label of the "Save" button), the `core.py` script might need to be updated.

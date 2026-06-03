@@ -28,7 +28,7 @@ def import_cookies():
     print(f"Filtered to {len(filtered_cookies)} Google/YouTube cookies.")
     
     # POST to Camofox API
-    url = "http://localhost:9377/sessions/youtube_playlist_agent_default/cookies"
+    url = "http://localhost:9377/sessions/yt_playlist_agent_default/cookies"
     headers = {
         "Content-Type": "application/json",
         "Authorization": "Bearer my_secret_cookie_key"

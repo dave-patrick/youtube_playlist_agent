@@ -32,7 +32,7 @@ def main():
         print("Title tag content:", title_matches)
         
         # Check if user is logged in
-        # YouTube usually has "Sign in" or avatar/account info
+        # YT usually has "Sign in" or avatar/account info
         if "Sign in" in html:
             print("Status: NOT logged in (found 'Sign in')")
         else:

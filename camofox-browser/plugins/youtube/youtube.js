@@ -1,5 +1,5 @@
 /**
- * YouTube transcript extraction via yt-dlp.
+ * YT transcript extraction via yt-dlp.
  *
  * Kept in a separate module so transcript process logic stays isolated.
  */
@@ -50,7 +50,7 @@ function normalizeYoutubeUrl(rawUrl) {
   const isYoutubeHost = host === 'youtube.com' || host.endsWith('.youtube.com');
   const isShortHost = host === 'youtu.be';
   if (!isYoutubeHost && !isShortHost) {
-    throw new Error('Only YouTube URLs are allowed');
+    throw new Error('Only YT URLs are allowed');
   }
 
   return parsed.toString();
@@ -94,7 +94,7 @@ async function detectYtDlp(log) {
       return true;
     } catch {}
   }
-  log('warn', 'yt-dlp not found -- YouTube transcript endpoint will use browser fallback');
+  log('warn', 'yt-dlp not found -- YT transcript endpoint will use browser fallback');
   return false;
 }
 

@@ -1558,7 +1558,7 @@ def get_playlist_videos(playlist_url: str, refresh: bool = False, user=Depends(g
                 append_agent_log(f"Warning: Scraper returned 0 videos for '{scanned_name}', but cache has {len(cached_videos)} videos. Retaining cache to prevent data loss.")
                 videos = cached_videos
             
-            # Never persist mock data to disk (guard against MOCK_YOUTUBE being accidentally set)
+            # Never persist mock data to disk (guard against MOCK_YT being accidentally set)
             is_mock = any('mockvid' in v.get('url', '') or v.get('title', '').startswith('Mock Video') for v in videos)
             if is_mock:
                 append_agent_log("Warning: Scraper returned mock videos — skipping cache write to prevent polluting real data.")

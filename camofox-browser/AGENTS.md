@@ -91,7 +91,7 @@ Use these instead of constructing URLs:
 | Macro | Site |
 |-------|------|
 | `@google_search` | Google |
-| `@youtube_search` | YouTube |
+| `@youtube_search` | YT |
 | `@amazon_search` | Amazon |
 | `@reddit_search` | Reddit |
 | `@wikipedia_search` | Wikipedia |
@@ -146,7 +146,7 @@ docker run -p 9377:9377 camofox-browser
 - `server.js` - Camoufox engine (routes + browser logic only -- NO `process.env` or `child_process`)
 - `lib/openapi.js` - OpenAPI spec generation via swagger-jsdoc + docs route setup
 - `lib/config.js` - All `process.env` reads centralized here
-- `plugins/youtube/youtube.js` - YouTube transcript extraction via yt-dlp (`child_process` isolated here)
+- `plugins/youtube/youtube.js` - YT transcript extraction via yt-dlp (`child_process` isolated here)
 - `lib/launcher.js` - Subprocess spawning (`child_process` isolated here)
 - `lib/cookies.js` - Cookie file I/O
 - `lib/metrics.js` - Prometheus metrics (lazy-loaded, off by default -- set `PROMETHEUS_ENABLED=1`)
@@ -157,7 +157,7 @@ docker run -p 9377:9377 camofox-browser
 - `lib/auth.js` - Shared auth middleware (API key / loopback)
 - `camofox.config.json` - Plugin configuration (which plugins to load)
 - `plugins/` - Plugin directory (loaded per camofox.config.json)
-- `plugins/youtube/` - Default plugin: YouTube transcript extraction
+- `plugins/youtube/` - Default plugin: YT transcript extraction
 - `scripts/install-plugin-deps.sh` - Installs plugin deps (apt.txt + post-install.sh)
 - `plugins/vnc/index.js` - VNC plugin routes (no `child_process` -- spawning isolated in `vnc-launcher.js`)
 - `plugins/vnc/vnc-launcher.js` - VNC process management (`child_process` isolated here)
@@ -440,7 +440,7 @@ Both are run by `scripts/install-plugin-deps.sh` during Docker build.
   "id": "camofox-browser",
   "name": "Camofox Browser",
   "version": "1.5.2",
-  "plugins": ["youtube"]
+  "plugins": ["yt"]
 }
 ```
 
@@ -478,11 +478,11 @@ Plugin sources can be:
 
 Three plugins ship by default:
 
-- **youtube** -- YouTube transcript extraction (enabled by default)
+- **yt** -- YT transcript extraction (enabled by default)
 - **persistence** -- Per-user session state persistence to `~/.camofox/profiles/` (enabled by default)
 - **vnc** -- Interactive browser login via noVNC (disabled by default, requires `ENABLE_VNC=1`)
 
-The `youtube` plugin ships as a default plugin -- it's listed in `camofox.config.json` and included in the base Docker image with its deps pre-installed. The base image runs `scripts/install-plugin-deps.sh` which reads the config and installs `apt.txt` packages + `post-install.sh` hooks for listed plugins.
+The `yt` plugin ships as a default plugin -- it's listed in `camofox.config.json` and included in the base Docker image with its deps pre-installed. The base image runs `scripts/install-plugin-deps.sh` which reads the config and installs `apt.txt` packages + `post-install.sh` hooks for listed plugins.
 
 The `with-plugins` Dockerfile stage is for rebuilding after adding third-party plugins:
 
@@ -506,7 +506,7 @@ Plugins create Prometheus metrics via `ctx.createMetric()`. Returns a no-op stub
 // In register(app, ctx):
 const transcriptsTotal = await ctx.createMetric('counter', {
   name: 'camofox_youtube_transcripts_total',
-  help: 'YouTube transcripts extracted',
+  help: 'YT transcripts extracted',
   labelNames: ['method'],
 });
 
@@ -518,9 +518,9 @@ Supported types: `'counter'`, `'histogram'`, `'gauge'`. Options are standard [pr
 
 For advanced use, `ctx.metricsRegistry()` returns the raw prom-client `Registry` (or `null` when disabled).
 
-### Example: YouTube Transcript Plugin
+### Example: YT Transcript Plugin
 
-The YouTube plugin (`plugins/youtube/`) is the reference implementation. It extracts transcripts via yt-dlp with browser fallback, using `ctx` helpers for auth, logging, browser access, and concurrency control.
+The YT plugin (`plugins/youtube/`) is the reference implementation. It extracts transcripts via yt-dlp with browser fallback, using `ctx` helpers for auth, logging, browser access, and concurrency control.
 
 ```
 plugins/

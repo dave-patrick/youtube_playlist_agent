@@ -91,8 +91,8 @@ def get_cookies():
 if __name__ == "__main__":
     cookies = get_cookies()
     print(f"Successfully decrypted {len(cookies)} cookies.")
-    # Print youtube related cookies
+    # Print yt related cookies
     yt_cookies = [c for c in cookies if "youtube.com" in c["domain"]]
-    print(f"Found {len(yt_cookies)} YouTube cookies.")
+    print(f"Found {len(yt_cookies)} YT cookies.")
     if yt_cookies:
         print("Sample cookie name:", yt_cookies[0]["name"])

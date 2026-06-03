@@ -1,7 +1,7 @@
 import os
 
 def fix_encoding():
-    with open('youtube_category_channel_map.txt', 'rb') as f:
+    with open('yt_category_channel_map.txt', 'rb') as f:
         content = f.read()
     
     # Try decoding as UTF-16 (little endian or big endian)
@@ -32,7 +32,7 @@ def fix_encoding():
         if line not in cleaned:
             cleaned.append(line)
             
-    with open('youtube_category_channel_map.txt', 'w', encoding='utf-8') as f:
+    with open('yt_category_channel_map.txt', 'w', encoding='utf-8') as f:
         f.write('\n'.join(cleaned) + '\n')
 
 if __name__ == "__main__":

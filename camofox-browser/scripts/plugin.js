@@ -48,7 +48,7 @@ function writeConfig(config) {
 
 /**
  * Get the set of enabled plugin names from config.
- * Handles both array format ["youtube"] and object format { "youtube": { "enabled": true } }.
+ * Handles both array format ["yt"] and object format { "yt": { "enabled": true } }.
  */
 function getEnabledPlugins(config) {
   if (!config.plugins) return new Set();

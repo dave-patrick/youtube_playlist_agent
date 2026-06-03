@@ -1,5 +1,5 @@
 /**
- * YouTube transcript plugin.
+ * YT transcript plugin.
  *
  * Extracts video transcripts via yt-dlp (preferred) with browser fallback.
  * Registers POST /youtube/transcript.
@@ -33,10 +33,10 @@ export async function register(app, ctx, pluginConfig = {}) {
       if (urlErr) return res.status(400).json({ error: urlErr });
 
       const videoIdMatch = url.match(
-        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/
+        /(?:yt\.com\/watch\?v=|youtu\.be\/|yt\.com\/embed\/|yt\.com\/shorts\/)([a-zA-Z0-9_-]{11})/
       );
       if (!videoIdMatch) {
-        return res.status(400).json({ error: 'Could not extract YouTube video ID from URL' });
+        return res.status(400).json({ error: 'Could not extract YT video ID from URL' });
       }
       const videoId = videoIdMatch[1];
       const lang = languages[0] || 'en';
@@ -45,7 +45,7 @@ export async function register(app, ctx, pluginConfig = {}) {
       await ensureYtDlp(log);
 
       const ytDlpProxyUrl = buildProxyUrl(proxyPool, config.proxy);
-      log('info', 'youtube transcript: starting', { reqId, videoId, lang, method: hasYtDlp() ? 'yt-dlp' : 'browser', hasProxy: !!ytDlpProxyUrl });
+      log('info', 'yt transcript: starting', { reqId, videoId, lang, method: hasYtDlp() ? 'yt-dlp' : 'browser', hasProxy: !!ytDlpProxyUrl });
 
       let result;
       if (hasYtDlp()) {
@@ -64,11 +64,11 @@ export async function register(app, ctx, pluginConfig = {}) {
         result = await browserTranscript(reqId, url, videoId, lang);
       }
 
-      log('info', 'youtube transcript: done', { reqId, videoId, status: result.status, words: result.total_words });
+      log('info', 'yt transcript: done', { reqId, videoId, status: result.status, words: result.total_words });
       res.json(result);
     } catch (err) {
       failuresTotal.labels(classifyError(err), 'youtube_transcript').inc();
-      log('error', 'youtube transcript failed', { reqId, error: err.message, stack: err.stack });
+      log('error', 'yt transcript failed', { reqId, error: err.message, stack: err.stack });
       res.status(500).json({ error: safeError(err) });
     }
   });
@@ -111,14 +111,14 @@ export async function register(app, ctx, pluginConfig = {}) {
           };
         });
 
-        log('info', 'youtube transcript: extracted caption tracks', { reqId, title: meta.title, trackCount: meta.tracks.length, tracks: meta.tracks.map(t => t.code) });
+        log('info', 'yt transcript: extracted caption tracks', { reqId, title: meta.title, trackCount: meta.tracks.length, tracks: meta.tracks.map(t => t.code) });
 
         // Strategy A: Fetch caption track URL directly from ytInitialPlayerResponse
         if (meta.tracks && meta.tracks.length > 0) {
           const track = meta.tracks.find(t => t.code === lang) || meta.tracks[0];
           if (track && track.url) {
             const captionUrl = track.url + (track.url.includes('?') ? '&' : '?') + 'fmt=json3';
-            log('info', 'youtube transcript: fetching caption track', { reqId, lang: track.code, url: captionUrl.substring(0, 100) });
+            log('info', 'yt transcript: fetching caption track', { reqId, lang: track.code, url: captionUrl.substring(0, 100) });
             try {
               const captionResp = await page.evaluate(async (fetchUrl) => {
                 const resp = await fetch(fetchUrl);
@@ -139,7 +139,7 @@ export async function register(app, ctx, pluginConfig = {}) {
                 }
               }
             } catch (fetchErr) {
-              log('warn', 'youtube transcript: caption track fetch failed', { reqId, error: fetchErr.message });
+              log('warn', 'yt transcript: caption track fetch failed', { reqId, error: fetchErr.message });
             }
           }
         }
@@ -162,7 +162,7 @@ export async function register(app, ctx, pluginConfig = {}) {
           };
         }
 
-        log('info', 'youtube transcript: intercepted captions', { reqId, len: interceptedCaptions.length });
+        log('info', 'yt transcript: intercepted captions', { reqId, len: interceptedCaptions.length });
 
         let transcriptText = null;
         if (interceptedCaptions.trimStart().startsWith('{')) transcriptText = parseJson3(interceptedCaptions);

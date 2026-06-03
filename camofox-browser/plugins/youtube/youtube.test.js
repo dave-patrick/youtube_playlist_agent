@@ -1,6 +1,6 @@
 import { parseJson3, parseVtt, parseXml } from './youtube.js';
 
-describe('YouTube transcript parsers', () => {
+describe('YT transcript parsers', () => {
   test('parseJson3 extracts timestamped text', () => {
     const json3 = JSON.stringify({
       events: [

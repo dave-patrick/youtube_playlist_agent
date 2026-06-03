@@ -1,4 +1,4 @@
-# YouTube Sorting Rules
+# YT Sorting Rules
 When categorizing or moving videos for the user, use the following rules to assign them to the correct playlist:
 
 | Video type | Playlist | Playlist ID |

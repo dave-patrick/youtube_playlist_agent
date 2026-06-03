@@ -239,7 +239,7 @@ function downloadLogs() {
     
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     link.href = url;
-    link.download = `youtube_playlist_agent_logs_${timestamp}.txt`;
+    link.download = `yt_playlist_agent_logs_${timestamp}.txt`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

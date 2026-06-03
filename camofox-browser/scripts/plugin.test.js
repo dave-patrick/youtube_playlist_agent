@@ -29,9 +29,9 @@ afterEach(() => {
 });
 
 describe('plugin list', () => {
-  test('lists youtube as enabled', () => {
+  test('lists yt as enabled', () => {
     const out = run('list');
-    expect(out).toContain('youtube');
+    expect(out).toContain('yt');
     expect(out).toContain('[ok]');
   });
 });

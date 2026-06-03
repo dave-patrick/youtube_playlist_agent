@@ -19,7 +19,7 @@ def main():
     print(f"Found {len(continuations)} ytd-continuation-item-renderer tags in source.")
     
     # Let's search for "ytInitialData"
-    # YouTube embeds the video list in ytInitialData JSON
+    # YT embeds the video list in ytInitialData JSON
     m = re.search(r'var ytInitialData\s*=\s*(\{.*?\});', content)
     if not m:
         m = re.search(r'window\["ytInitialData"\]\s*=\s*(\{.*?\});', content)

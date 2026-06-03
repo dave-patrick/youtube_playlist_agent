@@ -10,11 +10,11 @@ def search_files(directory):
                 try:
                     with open(path, "r", encoding="utf-8") as f:
                         content = f.read()
-                    if "MOCK_YOUTUBE" in content:
-                        print(f"Found MOCK_YOUTUBE in: {path}")
+                    if "MOCK_YT" in content:
+                        print(f"Found MOCK_YT in: {path}")
                         # print the lines containing it
                         for i, line in enumerate(content.split("\n"), 1):
-                            if "MOCK_YOUTUBE" in line:
+                            if "MOCK_YT" in line:
                                 print(f"  Line {i}: {line.strip()}")
                 except Exception as e:
                     pass

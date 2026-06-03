@@ -17,7 +17,7 @@ try:
                       Array.from(document.querySelectorAll('span')).some(s => s.innerText && s.innerText.includes("Sign in"));
         return !signInBtn;
     """)
-    print("Signed in to YouTube according to page check:", is_signed_in)
+    print("Signed in to YT according to page check:", is_signed_in)
     
     driver.save_screenshot("scratch/youtube_login_check.png")
     print("Saved screenshot to scratch/youtube_login_check.png")

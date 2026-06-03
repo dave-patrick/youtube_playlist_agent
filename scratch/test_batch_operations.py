@@ -18,7 +18,7 @@ def run_tests():
     print(f"Source playlist: '{wl_playlist['name']}' ({wl_playlist['url']})")
     print(f"Target playlist: '{target_playlist['name']}' ({target_playlist['url']})")
     
-    # 2. Live refresh videos in source playlist (this runs mock fetch because MOCK_YOUTUBE=1 is set)
+    # 2. Live refresh videos in source playlist (this runs mock fetch because MOCK_YT=1 is set)
     print("\nRefreshing playlist live...")
     resp = requests.get("http://127.0.0.1:8000/api/playlists/videos", params={"playlist_url": wl_playlist["url"], "refresh": "true"})
     assert resp.status_code == 200, f"Failed to refresh videos: {resp.text}"

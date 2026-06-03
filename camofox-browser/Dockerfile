@@ -51,7 +51,7 @@ RUN --mount=type=bind,source=dist,target=/dist \
     && echo "{\"version\":\"${CAMOUFOX_VERSION}\",\"release\":\"${CAMOUFOX_RELEASE}\"}" > /root/.cache/camoufox/version.json \
     && test -f /root/.cache/camoufox/camoufox-bin && echo "Camoufox installed successfully"
 
-# Install yt-dlp for YouTube transcript extraction (no browser needed)
+# Install yt-dlp for YT transcript extraction (no browser needed)
 RUN --mount=type=bind,source=dist,target=/dist \
     install -m 755 /dist/yt-dlp-${ARCH} /usr/local/bin/yt-dlp
 

@@ -1,7 +1,7 @@
 import os
 
 def fix_map():
-    with open('youtube_category_channel_map.txt', 'rb') as f:
+    with open('yt_category_channel_map.txt', 'rb') as f:
         content = f.read()
     
     # Try to decode while ignoring null bytes and bad characters
@@ -27,7 +27,7 @@ def fix_map():
         if line not in cleaned:
             cleaned.append(line)
             
-    with open('youtube_category_channel_map.txt', 'w', encoding='utf-8') as f:
+    with open('yt_category_channel_map.txt', 'w', encoding='utf-8') as f:
         f.write('\n'.join(cleaned) + '\n')
 
 if __name__ == "__main__":

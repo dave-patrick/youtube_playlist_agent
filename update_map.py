@@ -1,6 +1,6 @@
 import os
 
-file_path = 'youtube_category_channel_map.txt'
+file_path = 'yt_category_channel_map.txt'
 
 new_channels = {
     "Michael Button": "Learning",

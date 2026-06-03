@@ -47,7 +47,7 @@ This project wraps that engine in a REST API built for agents: accessibility sna
 - **Cookie Import** - inject Netscape-format cookie files for authenticated browsing
 - **Proxy + GeoIP** - route traffic through residential proxies with automatic locale/timezone
 - **Structured Logging** - JSON log lines with request IDs for production observability
-- **YouTube Transcripts** - extract captions from any YouTube video via yt-dlp, no API key needed
+- **YT Transcripts** - extract captions from any YT video via yt-dlp, no API key needed
 - **Search Macros** - `@google_search`, `@youtube_search`, `@amazon_search`, `@reddit_subreddit`, and 10 more
 - **Snapshot Screenshots** - include a base64 PNG screenshot alongside the accessibility snapshot
 - **Large Page Handling** - automatic snapshot truncation with offset-based pagination
@@ -64,7 +64,7 @@ This project wraps that engine in a REST API built for agents: accessibility sna
 
 | Dependency | Purpose | Install |
 |-----------|---------|---------|
-| [yt-dlp](https://github.com/yt-dlp/yt-dlp) | YouTube transcript extraction (fast path) | `pip install yt-dlp` or `brew install yt-dlp` |
+| [yt-dlp](https://github.com/yt-dlp/yt-dlp) | YT transcript extraction (fast path) | `pip install yt-dlp` or `brew install yt-dlp` |
 
 The Docker image includes yt-dlp. For local dev, install it for the `/youtube/transcript` endpoint. Without it, the endpoint falls back to a slower browser-based method.
 
@@ -565,11 +565,11 @@ curl -X POST http://localhost:9377/tabs/TAB_ID/navigate \
 | `POST` | `/tabs/:id/forward` | Go forward |
 | `POST` | `/tabs/:id/refresh` | Refresh page |
 
-### YouTube Transcript
+### YT Transcript
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `POST` | `/youtube/transcript` | Extract captions from a YouTube video |
+| `POST` | `/youtube/transcript` | Extract captions from a YT video |
 
 ```bash
 curl -X POST http://localhost:9377/youtube/transcript \
@@ -578,7 +578,7 @@ curl -X POST http://localhost:9377/youtube/transcript \
 # -> { "status": "ok", "transcript": "[00:18] [music] We're no strangers to love [music]\n...", "video_title": "...", "total_words": 548 }
 ```
 
-Uses [yt-dlp](https://github.com/yt-dlp/yt-dlp) when available (fast, no browser needed). Falls back to a browser-based intercept method if yt-dlp is not installed -- this is slower and less reliable due to YouTube ad pre-rolls.
+Uses [yt-dlp](https://github.com/yt-dlp/yt-dlp) when available (fast, no browser needed). Falls back to a browser-based intercept method if yt-dlp is not installed -- this is slower and less reliable due to YT ad pre-rolls.
 
 ### Server
 
@@ -700,7 +700,7 @@ Outbound connections are made to: (1) URLs the agent navigates to (core function
 
 ### Subprocess usage
 
-Two subprocesses may be spawned: (1) the Camoufox browser engine (core functionality, `lib/launcher.js`), (2) yt-dlp for YouTube transcript extraction (optional, `plugins/youtube/youtube.js`). Both are isolated in dedicated files separate from route handlers.
+Two subprocesses may be spawned: (1) the Camoufox browser engine (core functionality, `lib/launcher.js`), (2) yt-dlp for YT transcript extraction (optional, `plugins/youtube/youtube.js`). Both are isolated in dedicated files separate from route handlers.
 
 ## Testing
 

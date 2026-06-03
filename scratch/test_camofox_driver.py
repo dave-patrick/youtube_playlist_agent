@@ -9,12 +9,12 @@ import requests
 import json
 
 class CamofoxDriverWrapper:
-    def __init__(self, base_url="http://localhost:9377", user_id="youtube_playlist_agent_default", session_key="main_session"):
+    def __init__(self, base_url="http://localhost:9377", user_id="yt_playlist_agent_default", session_key="main_session"):
         self.base_url = base_url
         self.user_id = user_id
         self.session_key = session_key
         self.tab_id = None
-        self.title = "YouTube"
+        self.title = "YT"
         self._ensure_tab()
         
     def _ensure_tab(self):

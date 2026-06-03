@@ -6,7 +6,7 @@ def analyze():
         videos = json.load(f)
     
     channel_map = {}
-    with open("youtube_category_channel_map.txt", "r", encoding="utf-8") as f:
+    with open("yt_category_channel_map.txt", "r", encoding="utf-8") as f:
         for line in f:
             if ":" in line:
                 parts = line.strip().split(":")

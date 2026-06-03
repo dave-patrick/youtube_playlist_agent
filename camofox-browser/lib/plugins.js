@@ -70,8 +70,8 @@ const CONFIG_PATH = path.join(ROOT_DIR, 'camofox.config.json');
 /**
  * Read plugin configuration from camofox.config.json.
  * Supports two formats:
- *   - Array of strings: ["youtube", "persistence"] (no per-plugin config)
- *   - Object with per-plugin config: { "youtube": { "enabled": true }, "persistence": { "enabled": true, "profileDir": "/data" } }
+ *   - Array of strings: ["yt", "persistence"] (no per-plugin config)
+ *   - Object with per-plugin config: { "yt": { "enabled": true }, "persistence": { "enabled": true, "profileDir": "/data" } }
  * Returns { list: string[] | null, configs: Map<string, object> }
  */
 function readPluginConfig() {

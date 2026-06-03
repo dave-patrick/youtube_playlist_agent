@@ -3,7 +3,7 @@ import os
 
 def analyze():
     snapshot_path = 'watch_later_snapshot.json'
-    map_path = 'youtube_category_channel_map.txt'
+    map_path = 'yt_category_channel_map.txt'
     
     if not os.path.exists(snapshot_path):
         print(f"Error: {snapshot_path} not found")

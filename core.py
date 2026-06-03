@@ -22,7 +22,7 @@ class PlaywrightDriverWrapper:
         self.playwright_ctx = playwright_ctx
         self.context = context
         self.page = page
-        self.title = "YouTube"
+        self.title = "YT"
         
     @property
     def page_source(self):
@@ -277,12 +277,12 @@ def _make_chrome_options():
     return opt
 
 class CamofoxDriverWrapper:
-    def __init__(self, base_url="http://localhost:9377", user_id="youtube_playlist_agent_default", session_key="main_session"):
+    def __init__(self, base_url="http://localhost:9377", user_id="yt_playlist_agent_default", session_key="main_session"):
         self.base_url = base_url
         self.user_id = user_id
         self.session_key = session_key
         self.tab_id = None
-        self.title = "YouTube"
+        self.title = "YT"
         self.session = requests.Session()
         self.session.headers.update({
             "Authorization": "Bearer my_secret_cookie_key"
@@ -587,7 +587,7 @@ class CamofoxElementWrapper:
 
 def get_browser():
     global _CHROME_VERSION
-    if os.environ.get("MOCK_YOUTUBE") == "1":
+    if os.environ.get("MOCK_YT") == "1":
         class MockDriver:
             def quit(self): pass
             def save_screenshot(self, p): pass
@@ -699,7 +699,7 @@ def _open_save_dialog(driver):
         print(f"    Failed to check if video is made for kids: {e}")
         
     if is_kids:
-        raise RuntimeError("Video is marked 'Made for Kids' (Save button is disabled) - YouTube disables saving these to playlists")
+        raise RuntimeError("Video is marked 'Made for Kids' (Save button is disabled) - YT disables saving these to playlists")
 
     
     # Standard Selenium selectors
@@ -803,7 +803,7 @@ def _toggle_playlist_in_dialog(driver, playlist_name: str, should_be_checked: bo
                     if not title: continue
                     
                     if title.lower() == playlist_name.lower():
-                        # Determine current state - YouTube's new UI uses aria-label text or aria-pressed
+                        # Determine current state - YT's new UI uses aria-label text or aria-pressed
                         is_checked = False
                         try:
                             aria_label = (item.get_attribute("aria-label") or "").lower()
@@ -871,7 +871,7 @@ def _toggle_playlist_in_dialog(driver, playlist_name: str, should_be_checked: bo
         return False
 def add_video_to_playlist(video_url: str, playlist_name: str, driver=None) -> bool:
     """Adds a video to a specific playlist by name using fast async JS execution."""
-    if os.environ.get("MOCK_YOUTUBE") == "1":
+    if os.environ.get("MOCK_YT") == "1":
         print(f"MOCK: Added {video_url} to playlist '{playlist_name}'")
         return True
     own_driver = False
@@ -908,7 +908,7 @@ def add_video_to_playlist(video_url: str, playlist_name: str, driver=None) -> bo
                 );
                 
                 if (isKids || (saveBtn && (saveBtn.hasAttribute('disabled') || saveBtn.disabled || saveBtn.getAttribute('aria-disabled') === 'true'))) {{
-                    return "Video is marked 'Made for Kids' (Save button is disabled) - YouTube disables saving these to playlists";
+                    return "Video is marked 'Made for Kids' (Save button is disabled) - YT disables saving these to playlists";
                 }}
 
                 if (!saveBtn) {{
@@ -983,7 +983,7 @@ def add_video_to_playlist(video_url: str, playlist_name: str, driver=None) -> bo
 
 def remove_video_from_playlist(video_url: str, playlist_name: str, driver=None) -> bool:
     """Removes a video from a specific playlist by name using fast async JS execution."""
-    if os.environ.get("MOCK_YOUTUBE") == "1":
+    if os.environ.get("MOCK_YT") == "1":
         print(f"MOCK: Removed {video_url} from playlist '{playlist_name}'")
         return True
     own_driver = False
@@ -1020,7 +1020,7 @@ def remove_video_from_playlist(video_url: str, playlist_name: str, driver=None) 
                 );
                 
                 if (isKids || (saveBtn && (saveBtn.hasAttribute('disabled') || saveBtn.disabled || saveBtn.getAttribute('aria-disabled') === 'true'))) {{
-                    return "Video is marked 'Made for Kids' (Save button is disabled) - YouTube disables saving these to playlists";
+                    return "Video is marked 'Made for Kids' (Save button is disabled) - YT disables saving these to playlists";
                 }}
 
                 if (!saveBtn) {{
@@ -1094,7 +1094,7 @@ def remove_video_from_playlist(video_url: str, playlist_name: str, driver=None) 
             driver.quit()
 
 def move_video(video_url: str, source_playlist_name: str, target_playlist_name: str, driver=None) -> bool:
-    if os.environ.get("MOCK_YOUTUBE") == "1":
+    if os.environ.get("MOCK_YT") == "1":
         print(f"MOCK: Moved {video_url} from '{source_playlist_name}' to '{target_playlist_name}'")
         return True
     own_driver = False
@@ -1137,7 +1137,7 @@ def move_video(video_url: str, source_playlist_name: str, target_playlist_name: 
                 );
                 
                 if (isKids || (saveBtn && (saveBtn.hasAttribute('disabled') || saveBtn.disabled || saveBtn.getAttribute('aria-disabled') === 'true'))) {{
-                    return "Video is marked 'Made for Kids' (Save button is disabled) - YouTube disables saving these to playlists";
+                    return "Video is marked 'Made for Kids' (Save button is disabled) - YT disables saving these to playlists";
                 }}
 
                 if (!saveBtn) {{
@@ -1167,7 +1167,7 @@ def move_video(video_url: str, source_playlist_name: str, target_playlist_name: 
                 }}
                 
                 function isChecked(el) {{
-                    // Newest YouTube UI uses aria-pressed="true" or "Selected" in aria-label
+                    // Newest YT UI uses aria-pressed="true" or "Selected" in aria-label
                     if (el.getAttribute('aria-pressed') === 'true') return true;
                     let label = el.getAttribute('aria-label') || '';
                     if (label.includes(', Selected') || (label.includes('Selected') && !label.includes('Not selected'))) return true;
@@ -1244,7 +1244,7 @@ def move_video(video_url: str, source_playlist_name: str, target_playlist_name: 
             driver.quit()
 
 def create_playlist(video_url: str, playlist_name: str, privacy: str = "Private") -> bool:
-    if os.environ.get("MOCK_YOUTUBE") == "1":
+    if os.environ.get("MOCK_YT") == "1":
         print(f"MOCK: Created playlist '{playlist_name}'")
         return True
     driver = get_browser()
@@ -1279,7 +1279,7 @@ def create_playlist(video_url: str, playlist_name: str, privacy: str = "Private"
 
 def get_all_playlists() -> list:
     """Gets a list of all playlists from the feed/playlists page."""
-    if os.environ.get("MOCK_YOUTUBE") == "1":
+    if os.environ.get("MOCK_YT") == "1":
         return [
             {"name": "Watch Later", "url": "https://www.youtube.com/playlist?list=WL"},
             {"name": "AI", "url": "https://www.youtube.com/playlist?list=PL_AI"},
@@ -1371,7 +1371,7 @@ def get_all_playlists() -> list:
 
 def list_videos_in_playlist(playlist_name_or_url: str, driver=None) -> list:
     """Lists all videos in a given playlist by name or direct URL."""
-    if os.environ.get("MOCK_YOUTUBE") == "1":
+    if os.environ.get("MOCK_YT") == "1":
         import random
         suffix = playlist_name_or_url.split("list=")[-1] if "list=" in playlist_name_or_url else playlist_name_or_url
         return [
