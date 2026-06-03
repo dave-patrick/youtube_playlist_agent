@@ -103,9 +103,10 @@ def get_target_cat(title, channel, channel_map, vid=None, ai_classifications=Non
 
     # Truck (must go to Truck and nowhere else - not Auto, and not Overland)
     if matches(["tacoma", "truck", "pickup", "bed divider", "tailgate", "bed rack"]): return "Truck", False
-
     # Arizona
     if matches(["arizona", "phoenix", " az ", ", az"]): return "Arizona", False
+    # Cosplay
+    if matches(["cosplay"]): return "Cosplay", False
     # Music Videos
     if matches(["official music video", "official video", "music video", "lyric video", "official audio", "official lyric", "official visualizer", "musicvideo", "lyrics video", "(official)"]): return "Music Videos", False
     # AI
@@ -124,13 +125,10 @@ def get_target_cat(title, channel, channel_map, vid=None, ai_classifications=Non
     if matches(["blackstone", "griddle", "tortellini"]): return "Blackstone", False
     # Food
     if matches(["food", "cook", "recipe", "delicious", "tasty", "culinary"]): return "Food", False
-
     # Tech
     if matches(["gadget", "unboxing", "tech review", "hardware"]): return "Tech", False
     # Bigfoot
     if matches(["bigfoot", "sasquatch", "cryptid", "yeti"]): return "Bigfoot", False
-    # Cosplay
-    if matches(["cosplay"]): return "Cosplay", False
     # Auto
     if matches(["v8", "engine", "horsepower", "torque", "car review", "automotive"]): return "Auto", False
     # Football
