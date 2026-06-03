@@ -21,6 +21,7 @@ app = FastAPI(title="YT Playlist Manager API")
 
 PLAYLIST_REPORT_CACHE = {}
 RULES_CACHE = {}
+MAINTENANCE_CACHE = {}
 
 def load_cached_playlist_report(report_path: str):
     global PLAYLIST_REPORT_CACHE
@@ -1941,11 +1942,21 @@ def add_channel_rule(req: AddChannelRuleRequest, user=Depends(get_current_user))
 
 @app.get("/api/maintenance")
 def get_maintenance(user=Depends(get_current_user)):
+    global MAINTENANCE_CACHE
     maint_path = get_user_file_path("maintenance_actions.json", user)
     if os.path.exists(maint_path):
         try:
+            mtime = os.path.getmtime(maint_path)
+            cached = MAINTENANCE_CACHE.get(maint_path)
+            if cached and cached.get("mtime") == mtime:
+                return cached["data"]
             with open(maint_path, "r", encoding="utf-8") as f:
-                return json.load(f)
+                data = json.load(f)
+            MAINTENANCE_CACHE[maint_path] = {
+                "mtime": mtime,
+                "data": data
+            }
+            return data
         except: pass
     return []
 
