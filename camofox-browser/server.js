@@ -5250,7 +5250,7 @@ app.get('/tabs', async (req, res) => {
           targetId: tabId,
           tabId,
           url: tabState.page.url(),
-          title: await tabState.page.title().catch(() => ''),
+          title: '',
           listItemId
         });
       }
