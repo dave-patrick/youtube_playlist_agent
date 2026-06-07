@@ -18,10 +18,17 @@ if os.path.exists(maint_file):
     with open(maint_file, "r") as f:
         actions = json.load(f)
     print(f"\nFound {len(actions)} actions in {maint_file}")
-    if actions:
-        print("First 3 actions:")
-        for a in actions[:3]:
-            print(f" - Vid: {a.get('vid')}, Title: {a.get('title')}, Type: {a.get('type')}, Target/Removes: {a.get('to') or a.get('remove')}")
 else:
     print(f"\n{maint_file} does not exist.")
+
+report_file = os.path.join(os.path.dirname(__file__), "playlists_report_1.json")
+if os.path.exists(report_file):
+    with open(report_file, "r", encoding="utf-8") as f:
+        report = json.load(f)
+    print(f"\nFound {len(report)} playlists in {report_file}:")
+    for p in report:
+        print(f" - {p.get('name')} (ID: {p.get('id')}, Videos: {p.get('video_count') or len(p.get('videos', []))})")
+else:
+    print(f"\n{report_file} does not exist.")
+
 
